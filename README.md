@@ -33,7 +33,12 @@ Simple Service to Read the Bible and have a list of favorite bible verses.
 * E-Mail
 * login-method
 * password
-* Afray of bible verse codes
+* Array of bible verse codes
+  * code
+  * Language
+  * version
+  * text
+  * background-color
 * Language
 * bible-version
 (image via gravatar)
