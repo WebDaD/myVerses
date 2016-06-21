@@ -16,17 +16,16 @@ Many Thanks to the developers of the Following Stuff:
 ---
 Below this line, stuff will be removed and placed in better places!
 ### TODO
-## package
-* bower + copy
-* assets
-* minify + combine
-* verify (files, database, bibles)
 
+## Design
+* header (scroll away)
+* have good typography
+* round buttons: <button type="button" class="btn btn-lg btn-primary btn-circle"><i class="glyphicon glyphicon-plus"></i></button>
 
 ## Screens
 * Home (CardList of my Verses (like google keep), Add-Button, Share Verse)
 * Modal Add Verse (From, to, searchlike interface)
-* Login (if not logged in)
+* Login (if not logged in) +register, forgotPWD
 * Bible (Bible-Text, Selector)
 * Profile (User-Data)
 
@@ -38,24 +37,6 @@ Below this line, stuff will be removed and placed in better places!
 * linkedIN
 * OpenID
 
-## User-Data
-* ID
-* Name
-* Surname
-* Login
-* Nickname
-* E-Mail
-* login-method
-* password
-* Array of bible verse codes
-  * code
-  * Language
-  * version
-  * text
-  * background-color
-* Language
-* bible-version
-(image via gravatar)
 
 ## Backend
 * XML-Bibles

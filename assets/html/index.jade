@@ -52,13 +52,14 @@ html(lang='de', ng-app='myVerses')
             span.icon-bar
           a.navbar-brand(href='#')
             img(src="images/android-chrome-72x72.png")
-            span myVerses
         #navbar.collapse.navbar-collapse
           ul.nav.navbar-nav
             li(ng-show="username !== ''" ng-class="{ active: isActive('/myVerses')}")
-              a(href='#/myConnections') Meine Verbindungen
+              a(href='#/myVerses') Meine Verse
             li(ng-class="{ active: isActive('/bible')}")
               a(href='#/bible') Bibel
+            li(ng-class="{ active: isActive('/stats')}")
+              a(href='#/stats') Statistiken
             li(ng-show="username !== ''" ng-class="{ active: isActive('/profile')}")
               a(href='#/profile') Profil
           button.navbar-right.btn.btn-default.navbar-btn(type="button" ng-click="logout()" ng-show="username !== ''" style="margin-left:10px;") Logout
@@ -83,3 +84,11 @@ html(lang='de', ng-app='myVerses')
     script(src='js/ui-bootstrap-tpls.min.js')
     // myVerses specific scripts
     script(src='js/myVerses.js')
+    script(src='js/services/bible-svc.js')
+    script(src='js/services/user-svc.js')
+    script(src='js/controllers/bible-ctrl.js')
+    script(src='js/controllers/home-ctrl.js')
+    script(src='js/controllers/login-ctrl.js')
+    script(src='js/controllers/modal-verse-ctrl.js')
+    script(src='js/controllers/profile-ctrl.js')
+    script(src='js/controllers/stats-ctrl.js')
