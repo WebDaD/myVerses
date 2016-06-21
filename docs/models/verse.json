@@ -1,0 +1,10 @@
+{
+  "id":"unique id",
+  "book":"id of book",
+  "chapter":"nr of chapter",
+  "number":"Number of verse",
+  "text":"text of verse",
+  "language":"language of verse",
+  "version":"bibleversion of verse",
+  "code":"code of verse"
+}
