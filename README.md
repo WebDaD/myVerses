@@ -19,9 +19,9 @@ Below this line, stuff will be removed and placed in better places!
 
 ## code
 * libs
-  * user
-  * bible
-  * bibles
+  * user + optional callbacks
+  * bible + optional callbacks
+  * bibles + optional callbacks
 * Routes
   * bible (req.query.version,language)
   * stats
@@ -38,7 +38,7 @@ Below this line, stuff will be removed and placed in better places!
     * search in upper right
   * html
     * bible
-    * Home
+    * TEST Home
     * Login
     * modal-verse
     * Profile

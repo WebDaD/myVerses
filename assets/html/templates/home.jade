@@ -1,4 +1,9 @@
-//-
-  Add title
-  Show cards in col-md-6 thing (.card{i, h3, cite})
-  add floating button bottom right, on click modal <button type="button" class="btn btn-lg btn-primary btn-circle"><i class="glyphicon glyphicon-plus"></i></button>
+h1 Meine Verse
+.row
+  .col-md-4
+    .card(ng-repeat="verse in ctrl.verses" style="backgroundcolor:{{verse.backgroundcolor}}")
+      i.fa.fa-share-alt(ng-click="ctrl.share(verse)")
+      h3(style="color:verse.textcolor;font-family:verse.font") {{verse.text}}
+      cite {{verse.code}}
+button#addVerse.btn.btn-lg.btn-primary.btn-circle(type="button")
+  i.glyphicon.glyphicon-plus(ng-click="ctrl.addVerse()")
