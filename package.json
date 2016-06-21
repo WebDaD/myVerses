@@ -1,0 +1,79 @@
+{
+  "name": "myVerses",
+  "version": "0.1.0",
+  "private": true,
+  "config": {
+    "port":8080,
+    "database": {
+      "users":"database/users/"
+    },
+    "bibles":"bibles/"
+  },
+  "scripts": {
+    "global":"echo '=> Installing dependend packages' && npm install -g bower pm2 mocha standard istanbul markdown-html good-mocha-html-reporter raml2html jsdoc less jade html-minifier uglify-js uglifycss imagemin-cli jade-lint jsonlint-cli && echo '=> Installing dependend packages OK'",
+
+    "lint":"echo '=> Linting Files' && npm run lint:jade && npm run lint:less && npm run lint:js && npm run lint:json && echo '=> Linting Files OK'",
+      "lint:jade":"echo -n '==> Linting JADE ...' && jade-lint assets/html/**/*.jade && echo 'OK'",
+      "lint:less":"echo -n '==> Linting LESS ...' && lessc --lint assets/css/*.less && echo 'OK'",
+      "lint:js":"echo -n '==> Linting JS ...' && standard \"assets/**/*.js\" \"tests/*.js\" && echo 'OK'",
+      "lint:json":"echo -n '==> Linting JSON ...' && jsonlint-cli package.json && jsonlint-cli data/**/*.json && echo 'OK'",
+
+    "test":"echo '=> Perfoming Tests'  && istanbul cover _mocha -- tests/* -R good-mocha-html-reporter  && echo '=> Perfoming Tests OK'",
+
+    "doc":"echo '=> Creating Docs' && npm run doc:istanbul && npm run doc:markdown && npm run doc:mocha && npm run doc:raml && npm run doc:jsdoc && npm run doc:manuals && echo '=> Creating Docs OK'",
+      "doc:istanbul":"echo -n '==> Creating Coverage ...' && rsync -avq coverage/ doc/coverage/ && rm -rf coverage/ && echo 'OK'",
+      "doc:markdown":"echo -n '==> Creating HTML ...' && markdown-html doc/index.md -o doc/index.html && markdown-html README.md -o doc/readme.html && echo 'OK'",
+      "doc:mocha":"echo -n '==> Creating Testreports ...' && mv report.html doc/mocha.html && echo 'OK'",
+      "doc:raml":"echo -n '==> Creating API-Doc ...' && raml2html doc/api.raml > doc/rest.html && echo 'OK'",
+      "doc:jsdoc":"echo -n '==> Creating JSDoc ...' && jsdoc lib/* routes/* tests/* app.js -d doc/jsdoc/ && echo 'OK'",
+      "doc:manuals":"echo -n '==> Creating Manuals ...' && markdown-html doc/manuals/user.md -o doc/manual_user.html &&  markdown-html doc/manuals/admin.md -o doc/manual_admin.html && echo 'OK'",
+
+    "assets":"echo '=> Deploying Website Assets' && npm run assets:baseline && npm run assets:html && npm run assets:js && npm run assets:css && npm run assets:images && echo '=> Deploying Website Assets OK'",
+      "assets:baseline":"echo -n '==> Preparing Folders ...' && mkdir -p public && mkdir -p tmp && rm -rf public/* &&  npm run assets:cleantmp && mkdir -p public/templates && mkdir -p public/css && mkdir -p public/js && mkdir -p public/js/controllers && mkdir -p public/images && mkdir -p public/fonts && echo 'OK'",
+      "assets:html":"echo -n '==> Deploying HTML ...' && jade assets/html/index.jade -o public/ > /dev/null && jade assets/html/templates/*.jade -o public/templates/ > /dev/null && echo 'OK'",
+      "assets:js":"echo -n '==> Deploying JS ...' && cp assets/js/*.js public/js/ && cp assets/js/controllers/*.js public/js/controllers/ && echo 'OK'",
+      "assets:css":"echo -n '==> Deploying CSS ...' && cp assets/css/*.css public/css/ 2>>/dev/null | true && lessc assets/css/main.less public/css/main.css && echo 'OK'",
+      "assets:images":"echo -n '==> Deploying Images ...' && cp assets/images/* public/images/ 2>>/dev/null | true && echo 'OK'",
+      "assets:cleantmp":"rm -rf tmp/*",
+
+    "bower":"echo '=> Deploying Bower Assets' && echo '==> Bower install' && bower install --allow-root && npm run bower:bootstrap && npm run bower:bootstrap-select && npm run bower:font-awesome && npm run bower:glyphicons && npm run bower:angular && npm run bower:jquery && npm run bower:lodash && echo '=> Deploying Bower Assets OK'",
+      "bower:bootstrap":"echo -n '==> Deploying Bootstrap ...' && cp bower_components/bootstrap/dist/css/bootstrap.min.css public/css/bootstrap.min.css && echo 'OK'",
+      "bower:bootstrap-select":"echo -n '==> Deploying Bootstrap-Select ...' && cp bower_components/bootstrap-select/dist/css/bootstrap-select.css public/css/bootstrap-select.css && cp bower_components/bootstrap-select/dist/js/bootstrap-select.js public/js/bootstrap-select.js && echo 'OK'",
+      "bower:font-awesome":"echo -n '==> Deploying Font-Awesome ...' && cp bower_components/font-awesome/css/font-awesome.min.css public/css/font-awesome.min.css && echo 'OK'",
+      "bower:glyphicons":"echo -n '==> Deploying glyphicons ...' && cp bower_components/bootstrap/fonts/* public/fonts/ && echo 'OK'",
+      "bower:angular":"echo '==> Deploying angular' && cp bower_components/angular/angular.min.js public/js/angular.min.js && npm run bower:angular:sanitize && npm run bower:angular:route && npm run bower:angular:animate && npm run bower:angular:resource && npm run bower:angular:bootstrap && npm run bower:angular:ngtable && npm run bower:angular:cookies && npm run bower:angular:md5 && npm run bower:angular:socket-io && echo '==> Deploying angular OK'",
+        "bower:angular:sanitize":"echo -n '===> Deploying angular-sanitize ...' && cp bower_components/angular-sanitize/angular-sanitize.min.js public/js/angular-sanitize.min.js && echo 'OK'",
+        "bower:angular:resource":"echo -n '===> Deploying angular-resource ...' && cp bower_components/angular-resource/angular-resource.min.js public/js/angular-resource.min.js && echo 'OK'",
+        "bower:angular:route":"echo -n '===> Deploying angular-route ...' && cp bower_components/angular-route/angular-route.min.js public/js/angular-route.min.js && echo 'OK'",
+        "bower:angular:animate":"echo -n '===> Deploying angular-animate ...' && cp bower_components/angular-animate/angular-animate.min.js public/js/angular-animate.min.js && echo 'OK'",
+        "bower:angular:cookies":"echo -n '===> Deploying angular-cookies ...' && cp bower_components/angular-cookies/angular-cookies.min.js public/js/angular-cookies.min.js && echo 'OK'",
+        "bower:angular:md5":"echo -n '===> Deploying angular-md5 ...' && cp bower_components/angular-md5/angular-md5.min.js public/js/angular-md5.min.js && echo 'OK'",
+        "bower:angular:bootstrap":"echo -n '===> Deploying angular-bootstrap ...' && cp bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js public/js/ui-bootstrap-tpls.min.js && echo 'OK'",
+        "bower:angular:ngtable":"echo -n '===> Deploying angular-ngtable ...' && cp bower_components/ng-table/dist/ng-table.min.js public/js/ng-table.min.js && cp bower_components/ng-table/dist/ng-table.min.css public/css/ng-table.min.css && echo 'OK'",
+        "bower:angular:socket-io":"echo -n '===> Deploying angular-socket-io ...' && cp bower_components/angular-socket-io/socket.min.js public/js/socket.min.js && echo 'OK'",
+      "bower:jquery":"echo -n '==> Deploying jquery ...' && cp bower_components/jquery/dist/jquery.min.js public/js/jquery.min.js && echo 'OK'",
+      "bower:lodash":"echo -n '==> Deploying Lodash ...' && cp bower_components/bower-lodash/dist/lodash.min.js public/js/lodash.min.js && echo 'OK'",
+
+    "verify": "echo '=> Verifying Deployment Process' && npm run verify:can && npm run verify:html && npm run verify:js && npm run verify:css && npm run verify:images && npm run verify:server && npm run verify:database && echo '=> Verifying Deployment Process OK'",
+      "verify:can": "echo -n '==> Verifying CAN-Components ...' && test -e /usr/local/bin/can2ip_dsa_c && command -v candump >/dev/null 2>&1 && command -v cansend >/dev/null 2>&1 && ip a | grep -Eq ': npm_package_config_can_vcan:.*state UP' && nc -z npm_package_config_can_server npm_package_config_can_port && test -e can2ip.conf && echo 'OK'",
+      "verify:html": "echo -n '==> Verifying HTML ...' && test -e public/index.html && test -e public/templates/connections.html && test -e public/templates/login.html && test -e public/templates/matrix.html && test -e public/templates/myConnections.html && test -e public/templates/sources-modal.html && test -e public/templates/sources.html && test -e public/templates/targets-modal.html && test -e public/templates/targets.html && test -e public/templates/users-modal.html && test -e public/templates/users-rights.html && test -e public/templates/users.html && echo 'OK'",
+      "verify:js": "echo -n '==> Verifying JS ...' && test -e public/js/vksManager.js && test -e public/js/vksManager-dir.js && test -e public/js/vksManager-svc.js && test -e public/js/controllers/connections.js && test -e public/js/controllers/login.js && test -e public/js/controllers/matrix.js && test -e public/js/controllers/myConnections.js && test -e public/js/controllers/source-modal.js && test -e public/js/controllers/source.js && test -e public/js/controllers/target-modal.js && test -e public/js/controllers/target.js && test -e public/js/controllers/user-modal.js && test -e public/js/controllers/user-rights.js && test -e public/js/controllers/user.js && test -e public/js/bootstrap-select.js && test -e public/js/angular.min.js && test -e public/js/angular-sanitizer.min.js && test -e public/js/angular-resource.min.js && test -e public/js/angular-route.min.js && test -e public/js/angular-animate.min.js && test -e public/js/angular-cookies.min.js && test -e public/js/angular-md5.min.js && test -e public/js/ui-bootstrap-tpls.min.js && test -e public/js/ng-table.min.js && test -e public/js/socket.min.js && test -e public/js/jquery.min.js && test -e public/js/lodash.min.js && echo 'OK'",
+      "verify:css": "echo -n '==> Verifying CSS ...' && test -e public/css/main.css && test -e public/css/bootstrap.min.css && test -e public/css/bootstrap-select.css && test -e public/css/font-awesome.min.css && test -e public/css/ng-table.min.css && test -e public/css/main.css && echo 'OK'",
+      "verify:images": "echo -n '==> Verifying Images ...' && test -e public/images/android-chrome-36x36.png && test -e public/images/android-chrome-48x48.png && test -e public/images/android-chrome-72x72.png && test -e public/images/android-chrome-96x96.png && test -e public/images/android-chrome-144x144.png && test -e public/images/android-chrome-192x192.png && test -e public/images/apple-touch-icon-57x57.png && test -e public/images/apple-touch-icon-60x60.png && test -e public/images/apple-touch-icon-72x72.png && test -e public/images/apple-touch-icon-76x76.png && test -e public/images/apple-touch-icon-114x114.png && test -e public/images/apple-touch-icon-120x120.png && test -e public/images/apple-touch-icon-144x144.png && test -e public/images/apple-touch-icon-152x152.png && test -e public/images/apple-touch-icon-180x180.png && test -e public/images/apple-touch-icon-precomposed.png && test -e public/images/apple-touch-icon.png && test -e public/images/browserconfig.xml && test -e public/images/favicon-16x16.png && test -e public/images/favicon-32x32.png && test -e public/images/favicon-96x96.png && test -e public/images/favicon.ico && test -e public/images/manifest.json && test -e public/images/mstile-70x70.png && test -e public/images/mstile-144x144.png && test -e public/images/mstile-150x150.png && test -e public/images/mstile-310x150.png && test -e public/images/mstile-310x310.png && test -e public/images/safari-pinned-tab.svg && echo 'OK'",
+      "verify:server": "echo -n '==> Verifying Server ...' && test -e app.js && test -e lib/can.js && test -e lib/source.js && test -e lib/target.js && test -e lib/user.js && test -e lib/vks.js && test -e routes/connections.js && test -e routes/index.js && test -e routes/sources.js && test -e routes/targets.js && test -e routes/user.js && echo 'OK'",
+      "verify:database": "echo -n '==> Verifying Database (FileBased) ...' && test -d npm_package_config_database_users && test -d npm_package_config_database_targets && test -d npm_package_config_database_sources && test -r npm_package_config_database_users && test -r npm_package_config_database_targets && test -r npm_package_config_database_sources && test -w npm_package_config_database_users && test -w npm_package_config_database_targets && test -w npm_package_config_database_sources && echo 'OK'",
+
+    "deploy":"echo '=> Deploying VKS-Control' && npm run global && npm install && npm run lint && npm run assets && npm run bower && npm run test && npm run doc && echo '<= READY TO START! =>\nTYPE `npm start` to startup the Server'",
+
+    "start": "pm2 start app.js --name vks-control"
+  },
+  "dependencies": {
+    "express": "*",
+    "nice-console": "*",
+    "jsonfile":"*",
+    "socket.io":"*",
+    "bcrypt":"*",
+    "body-parser":"*",
+    "reload":"*"
+  }
+}

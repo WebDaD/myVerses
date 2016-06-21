@@ -1,0 +1,28 @@
+{
+  "id":"123456",
+  "name":"Dominik",
+  "surname":"Sigmund",
+  "login":{
+    "method":"local",
+    "login":"sigmundd",
+    "pwd":"bcrypt(md5)"
+  },
+  "nickname":"DominikFeGFFB",
+  "mail":"sigmund.dominik@googlemail.com",
+  "bible":{
+    "languague":"de",
+    "version":"OffBiLe"
+  },
+  "image":"https://s.gravatar.com/avatar/db0ce630d7e02ad2a11fc814ff9bc47e?s=80",
+  "verses": [
+    {
+      "code":"Mat-6-33",
+      "language":"de",
+      "version":"OffBiLe",
+      "text":"Sucht erst die Herrschaft Gottes, und all diese Dinge werden eich geschenkt werden.",
+      "text-color":"#ff6600",
+      "background-color":"#000000",
+      "font":"OpenSans"
+    }
+  ]
+}

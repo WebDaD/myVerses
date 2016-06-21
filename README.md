@@ -1,13 +1,26 @@
 # MyVerses
 Simple Service to Read the Bible and have a list of favorite bible verses.
 
-## Uses
-* Zefaina https://sourceforge.net/projects/zefania-sharp/
-* Bootstrap
-* Angular
-* node.js
-* passportjs http://passportjs.org/
-* Filebases Database
+## Resources
+Many Thanks to the developers of the Following Stuff:
+* [Zefaina](https://sourceforge.net/projects/zefania-sharp/ http://bgfdb.de/zefaniaxml/bml/)
+* [Bootstrap](http://getbootstrap.com/)
+* [Angular](https://angularjs.org/)
+* [node.js](https://nodejs.org/en/)
+* [passportjs](http://passportjs.org/)
+* [MaterialPalette](https://www.materialpalette.com/green/amber)
+* [AndroidAssetStudio](https://romannurik.github.io/AndroidAssetStudio/icons-launcher.html)
+* [RealFaviconGenerator](http://realfavicongenerator.net/)
+
+---
+Below this line, stuff will be removed and placed in better places!
+### TODO
+## package
+* bower + copy
+* assets
+* minify + combine
+* verify (files, database, bibles)
+
 
 ## Screens
 * Home (CardList of my Verses (like google keep), Add-Button, Share Verse)
@@ -45,8 +58,8 @@ Simple Service to Read the Bible and have a list of favorite bible verses.
 
 ## Backend
 * XML-Bibles
-* Json with languages, versions
-* JSON-Bibles (converted on Start)
+* (mem)Json with languages, versions
+* (mem)JSON-Bibles (converted on Start)
 * Routes to display text
 
 ### extensions
@@ -71,3 +84,4 @@ possible query: ?lang=&version=
 * /home
 * /bible
 * /profile
+* /favicon.ico -> images/favicon
