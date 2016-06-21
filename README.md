@@ -11,6 +11,7 @@ Many Thanks to the developers of the Following Stuff:
 * [MaterialPalette](https://www.materialpalette.com/green/amber)
 * [AndroidAssetStudio](https://romannurik.github.io/AndroidAssetStudio/icons-launcher.html)
 * [RealFaviconGenerator](http://realfavicongenerator.net/)
+* [TWBSColor](http://work.smarchal.com/twbscolor/)
 
 ---
 Below this line, stuff will be removed and placed in better places!
