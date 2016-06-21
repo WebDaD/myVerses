@@ -1,9 +1,6 @@
 /* global angular */
 ;(function () {
-  angular.module('myVerses', ['ngRoute', 'ngResource', 'ngAnimate', 'ngCookies', 'ui.bootstrap', 'ngMd5', 'btford.socket-io'])
-    .factory('mySocket', function (socketFactory) {
-      return socketFactory()
-    })
+  angular.module('myVerses', ['ngRoute', 'ngResource', 'ngAnimate', 'ngCookies', 'ui.bootstrap', 'ngMd5'])
     .config(['$routeProvider', function ($routeProvider) {
       $routeProvider
         .when('/login', {
@@ -59,6 +56,8 @@
         $rootScope.version = $cookies.get('myVerses-version')
         $http.defaults.headers.common.id = $cookies.get('myVerses-id')
         $http.defaults.headers.common.token = $cookies.get('myVerses-token')
+        $http.defaults.headers.common.language = $cookies.get('myVerses-language')
+        $http.defaults.headers.common.version = $cookies.get('myVerses-version')
       } else {
         $rootScope.username = ''
         $rootScope.id = ''
@@ -67,6 +66,8 @@
         $rootScope.version = ''
         $http.defaults.headers.common.id = ''
         $http.defaults.headers.common.token = ''
+        $http.defaults.headers.common.language = ''
+        $http.defaults.headers.common.version = ''
         $location.path('/login')
       }
 
@@ -84,6 +85,8 @@
         $rootScope.version = ''
         $http.defaults.headers.common.id = ''
         $http.defaults.headers.common.token = ''
+        $http.defaults.headers.common.language = ''
+        $http.defaults.headers.common.version = ''
         $location.path('/login')
       }
     }])

@@ -17,17 +17,53 @@ Many Thanks to the developers of the Following Stuff:
 Below this line, stuff will be removed and placed in better places!
 ### TODO
 
-## Design
-* header (scroll away)
-* have good typography
-* round buttons (fix bottom right): <button type="button" class="btn btn-lg btn-primary btn-circle"><i class="glyphicon glyphicon-plus"></i></button>
+## code
+* libs
+  * user
+  * bible
+  * bibles
+* Routes
+  * bible (req.query.version,language)
+  * stats
+  * user
+* tests
+  * bible
+  * bibles
+  * user
+* assets / gui
+  * global
+    * typhography
+    * nice header
+    * print button in navbar, on card(fullscreen, sideways)
+    * search in upper right
+  * html
+    * bible
+    * Home
+    * Login
+    * modal-verse
+    * Profile
+    * stats
+    * verse
+  * angularjs
+    * MyVerses
+    * services
+      * bible
+      * stats
+      * user
+    * controller
+      * bible
+      * Home
+      * Login
+      * modal-verse
+      * Profile
+      * stats
+      * verse
 
-## Screens
-* Home (CardList of my Verses (like google keep), Add-Button, Share Verse)
-* Modal Add Verse (From, to, searchlike interface)
-* Login (if not logged in) +register, forgotPWD
-* Bible (Bible-Text, Selector)
-* Profile (User-Data)
+## docs
+* standard icon in readme, also test coverage, etc
+* logo on readme top
+* raml
+* postman
 
 ## Login-Options
 * local (bcrypt, md5)
@@ -36,34 +72,3 @@ Below this line, stuff will be removed and placed in better places!
 * google
 * linkedIN
 * OpenID
-
-
-## Backend
-* XML-Bibles
-* (mem)Json with languages, versions
-* (mem)JSON-Bibles (converted on Start)
-* Routes to display text
-
-### extensions
-* html (standalone)
-* json (text and link and navigation (up, down, prev, next))
-* XML
-* txt (simple text)
-
-### Routes
-possible query: ?lang=&version=
-* /api/:code.:extension (code: eg gen1,3)
-* /api/:book.:extension
-* /api/:book/chapters.:extension
-* /api/:book/:chapter.:extension
-* /api/:book/:chapter/verses.:extension
-* /api/:book/:chapter/:verse.:extension
-* /api/languages.:extension
-* /api/versions.:extension
-* /api/user/:id.json
-* /login
-* /register
-* /home
-* /bible
-* /profile
-* /favicon.ico -> images/favicon

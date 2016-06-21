@@ -1,5 +1,5 @@
 /* TODO:
-* passport auth
+* passport aut
 */
 /**
  * @overview 	Main Server File
@@ -17,6 +17,7 @@ var app = express()
 var server = require('http').createServer(app)
 var pack = require('./package.json')
 var io = require('socket.io').listen(server)
+var favicon = require('serve-favicon')
 var bodyParser = require('body-parser')
 var BIBLES = require('./libs/bibles.js')
 var USER = require('./libs/user.js')
@@ -39,6 +40,9 @@ var bibles = new BIBLES(pack.config.bibles, function (err) {
     var users = new USER(pack.config.database.users, require('bcrypt'), function () {
       // Listen to Port
       server.listen(pack.config.port)
+
+      // Server favicon
+      app.use(favicon(__dirname + '/public/images/favicon.ico'))
 
       // Routes
       require('./routes')(app, bibles, users)

@@ -23,7 +23,6 @@
     "angular-sanitize": "^1.5.2",
     "angular-cookies":"^1.5.2",
     "angular-md5":"*",
-    "angular-socket-io":"*",
     "bootstrap": "*",
     "jquery": "*",
     "font-awesome": "*",
