@@ -20,7 +20,7 @@ Below this line, stuff will be removed and placed in better places!
 ## Design
 * header (scroll away)
 * have good typography
-* round buttons: <button type="button" class="btn btn-lg btn-primary btn-circle"><i class="glyphicon glyphicon-plus"></i></button>
+* round buttons (fix bottom right): <button type="button" class="btn btn-lg btn-primary btn-circle"><i class="glyphicon glyphicon-plus"></i></button>
 
 ## Screens
 * Home (CardList of my Verses (like google keep), Add-Button, Share Verse)
