@@ -12,8 +12,8 @@ Readme-Datei des Projects:
 3. Apps -> Postman starten
 4. Enviroment importieren: Import > Drop file
 5. Sammlung importieren: Import > Drop file
-6. Enviroment aktivieren (Rechts oben -> development_server)
-[POSTMAN-Sammlung](myVerse.json.postman_collection "Download")
+6. Enviroment aktivieren (Rechts oben -> development_server)  
+[POSTMAN-Sammlung](myVerse.json.postman_collection "Download")  
 [POSTMAN-Enviroment](development_server.postman_environment.json "Download")
 
 ## JSDoc
@@ -28,5 +28,6 @@ Readme-Datei des Projects:
 ## Resources
 ### Logo
 ![Logo](logo_full.png)
-### Color Palettte
+![Logo-simple](logo_simple.png)
+### Color Palette
 ![Palette](palette.png)
