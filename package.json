@@ -23,7 +23,7 @@
 
     "doc":"echo '=> Creating Docs' && npm run doc:istanbul && npm run doc:markdown && npm run doc:mocha && npm run doc:raml && npm run doc:jsdoc && echo '=> Creating Docs OK'",
       "doc:istanbul":"echo -n '==> Creating Coverage ...' && rsync -avq coverage/ doc/coverage/ && rm -rf coverage/ && echo 'OK'",
-      "doc:markdown":"echo -n '==> Creating HTML ...' && markdown-html doc/index.md -o doc/index.html && markdown-html README.md -o doc/readme.html && echo 'OK'",
+      "doc:markdown":"echo -n '==> Creating HTML ...' && markdown-html doc/README.md -o doc/index.html && markdown-html README.md -o doc/readme.html && echo 'OK'",
       "doc:mocha":"echo -n '==> Creating Testreports ...' && mv report.html doc/mocha.html && echo 'OK'",
       "doc:raml":"echo -n '==> Creating API-Doc ...' && raml2html doc/api.raml > doc/rest.html && echo 'OK'",
       "doc:jsdoc":"echo -n '==> Creating JSDoc ...' && jsdoc lib/* routes/* tests/* app.js -d doc/jsdoc/ && echo 'OK'",
