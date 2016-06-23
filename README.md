@@ -59,11 +59,26 @@ Below this line, stuff will be removed and placed in better places!
       * stats
       * verse
 
+## Installer
+* apt-get git node npm
+* set link if needed
+* deploy
+
+## Dockerfile
+* base
+* steps
+* persistent database folder
+
 ## docs
 * standard icon in readme, also test coverage, etc
 * logo on readme top
 * raml
 * postman
+
+## Backend
+* Export Verse, Chapters, myVerses, Book, Bible
+  * route /export/:code/?:userid.:extension
+  * xml, csv, xls, pdf, html, json
 
 ## Login-Options
 * local (bcrypt, md5)
