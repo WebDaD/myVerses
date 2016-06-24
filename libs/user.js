@@ -39,20 +39,20 @@ function User (path, bcrypt, callback) {
   }
 }
 /** Returns an array of all Users
- * @param {callback} callback An optional, error-first callback, having the return-data as second parameter
- * @returns {array} Array of Users
+ * @param {callback} callback - error-first callback, having the return-data as second parameter
  * */
 User.prototype.getUsers = function (callback) {
-  if (typeof callback === 'function') {
-    return callback(null, this.users)
-  } else {
-    return this.users
-  }
+  return callback(null, this.users)
+}
+/** Sync Returns an array of all Users
+ * @returns {array} Array of Users
+ * */
+User.prototype.getUsersSync = function () {
+  return this.users
 }
 /** Returns an user-object for the given ID
  * @param {string} id - ID of an User
- * @param {callback} callback An optional, error-first callback, having the return-data as second parameter
- * @returns {object} An User-Object
+ * @param {callback} callback - error-first callback, having the return-data as second parameter
  * */
 User.prototype.getUser = function (id, callback) {
   var users = this.users.filter(function (obj) {
@@ -60,74 +60,254 @@ User.prototype.getUser = function (id, callback) {
   })
   if (users.length > 0) {
     if (typeof users[0] !== 'undefined') {
-      if (typeof callback === 'function') {
-        callback(null, users[0])
-      } else {
-        return users[0]
-      }
+      return callback(null, users[0])
     } else {
-      if (typeof callback === 'function') {
-        callback({status: 404, message: 'User with ID ' + id + ' not found'})
-      } else {
-        return null
-      }
+      return callback({status: 404, message: 'User with ID ' + id + ' not found'})
     }
   } else {
-    if (typeof callback === 'function') {
-      callback({status: 404, message: 'User with ID ' + id + ' not found'})
+    return callback({status: 404, message: 'User with ID ' + id + ' not found'})
+  }
+}
+/** Sync Returns an user-object for the given ID
+ * @param {string} id - ID of an User
+ * @returns {object} An User-Object
+ * */
+User.prototype.getUserSync = function (id) {
+  var users = this.users.filter(function (obj) {
+    return obj.id.toString() === id.toString()
+  })
+  if (users.length > 0) {
+    if (typeof users[0] !== 'undefined') {
+      return users[0]
     } else {
       return null
     }
+  } else {
+    return null
   }
 }
-
+/** Returns an user-object for the given Login
+ * @param {string} id - ID of an User
+ * @param {callback} callback - error-first callback, having the return-data as second parameter
+ * */
+User.prototype.getUserByLogin = function (login, callback) {
+  var users = this.users.filter(function (obj) {
+    if (obj.login.method === 'local') {
+      return obj.login.login.toString() === login.toString()
+    } else {
+      return false
+    }
+  })
+  if (users.length > 0) {
+    if (typeof users[0] !== 'undefined') {
+      return callback(null, users[0])
+    } else {
+      return callback({status: 404, message: 'User with Login ' + login + ' not found'})
+    }
+  } else {
+    return callback({status: 404, message: 'User with Login ' + login + ' not found'})
+  }
+}
+/** Sync Returns an user-object for the given Login
+ * @param {string} id - ID of an User
+ * @returns {object} An User-Object
+ * */
+User.prototype.getUserByLoginSync = function (login) {
+  var users = this.users.filter(function (obj) {
+    if (obj.login.method === 'local') {
+      return obj.login.login.toString() === login.toString()
+    } else {
+      return false
+    }
+  })
+  if (users.length > 0) {
+    if (typeof users[0] !== 'undefined') {
+      return users[0]
+    } else {
+      return null
+    }
+  } else {
+    return null
+  }
+}
 /** Updates an user-object with the given ID using given User-Object
  * @param {string} id - ID of an User
  * @param {object} user - An User-Object
- * @param {callback} callback An optional, error-first callback, having the return-data as second parameter
+ * @param {callback} callback - An error-first callback, having the return-data as second parameter
+ * */
+User.prototype.updateUser = function (id, user, callback) {
+  // TODO get user
+  // TODO check new login method. if local and password given, calc new password
+  // TODO overwrite user object
+  // TODO writeOut to File
+  // TODO callback  user
+
+}
+/** Sync Updates an user-object with the given ID using given User-Object
+ * @param {string} id - ID of an User
+ * @param {object} user - An User-Object
  * @returns {object} An User-Object
  * */
-User.prototype.updateUser = function (id, user, callback) {}
+User.prototype.updateUserSync = function (id, user) {
+  // TODO get user
+  // TODO check new login method. if local and password given, calc new password
+  // TODO overwrite user object
+  // TODO writeOut to File
+  // TODO return user
+
+}
 /** Creates an user-object using given User-Object
  * @param {object} user - An User-Object
- * @param {callback} callback An optional, error-first callback, having the return-data as second parameter
+ * @param {callback} callback - error-first callback, having the return-data as second parameter
  * @returns {object} An User-Object
  * */
-User.prototype.createUser = function (user, callback) {}
+User.prototype.createUser = function (user, callback) {
+  // TODO if login is local calc password from given
+  // TODO check if email exists, if yes ERROR
+  // TODO writeout to File
+  // TODO callback  user
+
+}
+/** Sync Creates an user-object using given User-Object
+ * @param {object} user - An User-Object
+ * @returns {object} An User-Object
+ * */
+User.prototype.createUserSync = function (user) {
+  // TODO if login is local calc password from given
+  // TODO check if email exists, if yes ERROR
+  // TODO writeout to File
+  // TODO callback or return user
+
+}
 /** Deletes an user-object for the given ID
+ * @param {string} id - ID of an User
+ * @param {callback} callback - error-only callback
+ * */
+User.prototype.deleteUser = function (id, callback) {
+  var self = this
+  var removed = false
+  for (var i = 0; i < self.users.length; i++) {
+    if (self.users[i].id === id) {
+      self.users.splice(i, 1)
+      removed = true
+    }
+  }
+  if (removed) {
+    return fs.unlink(self.path + id + '.json', callback)
+  } else {
+    return callback({status: 404, message: 'User with ID ' + id + ' not found'})
+  }
+}
+/** Sync Deletes an user-object for the given ID
  * @param {string} id - ID of an User
  * @returns {bool} True or False
  * */
-User.prototype.deleteUser = function (id, callback) {}
+User.prototype.deleteUserSync = function (id) {
+  var self = this
+  var removed = false
+  for (var i = 0; i < self.users.length; i++) {
+    if (self.users[i].id === id) {
+      self.users.splice(i, 1)
+      removed = true
+    }
+  }
+  if (removed) {
+    fs.unlinkSync(self.path + id + '.json')
+    return true
+  } else {
+    return false
+  }
+}
 /** Returns all verses from the user for the given ID
  * @param {string} id - ID of an User
  * @param {callback} callback An optional, error-first callback, having the return-data as second parameter
+ * */
+User.prototype.getVerses = function (id, callback) {
+  this.getUser(id, function (error, user) {
+    if (error) {
+      return callback(error)
+    } else {
+      return callback(null, user.verses)
+    }
+  })
+}
+/** Sync Returns all verses from the user for the given ID
+ * @param {string} id - ID of an User
  * @returns {array} An Array of Verse-Objects
  * */
-User.prototype.getVerses = function (id, callback) {}
+User.prototype.getVersesSync = function (id, callback) {
+  var user = this.getUserSync(id)
+  if (typeof user !== 'undefined' && user !== null) {
+    return user.verses
+  } else {
+    return null
+  }
+}
 /** Checks if User-Login is true
  * @param {string} login - Login of an User
  * @param {string} password - md5-hashed password
  * @param {callback} callback An optional, error-first callback, having the return-data as second parameter
- * @returns {string|null} null or the id of the user
  * */
-User.prototype.checkLogin = function (login, password, callback) {}
+User.prototype.checkLogin = function (login, password, callback) {
+  var self = this
+  self.getUserByLogin(login, function (error, user) {
+    if (error) {
+      return callback(error)
+    } else {
+      return self.bcrypt.compare(password, user.login.password, callback)
+    }
+  })
+}
+/** Sync Checks if User-Login is true
+ * @param {string} login - Login of an User
+ * @param {string} password - md5-hashed password
+ * @returns {boolean|null} null or true, false
+ * */
+User.prototype.checkLoginSync = function (login, password, callback) {
+  var self = this
+  var user = self.getUserByLoginSync(login)
+  if (typeof user !== 'undefined' && user !== null) {
+    return self.bcrypt.compareSync(password, user.login.password)
+  } else {
+    return null
+  }
+}
 /** Generate a Token for the user, allowing to perform tasks
  * @param {string} id - ID of an User
  * @param {string} ip - ip of the external client
  * @param {string} useragent - user-agent of the external client
  * @param {callback} callback An optional, error-first callback, having the return-data as second parameter
+ * */
+User.prototype.generateToken = function (id, ip, useragent, callback) {
+  return this.bcrypt.hash(id + ip + useragent, this.salt, null, callback)
+}
+/** Sync Generate a Token for the user, allowing to perform tasks
+ * @param {string} id - ID of an User
+ * @param {string} ip - ip of the external client
+ * @param {string} useragent - user-agent of the external client
  * @returns {string} a token
  * */
-User.prototype.generateToken = function (id, ip, useragent, callback) {}
+User.prototype.generateTokenSync = function (id, ip, useragent) {
+  return this.bcrypt.hashSync(id + ip + useragent, this.salt)
+}
 /** Checks if a Token for a user is valid
  * @param {string} id - ID of an User
  * @param {string} ip - ip of the external client
  * @param {string} useragent - user-agent of the external client
  * @param {string} token - token of the external client
  * @param {callback} callback An optional, error-first callback, having the return-data as second parameter
+ * */
+User.prototype.checkToken = function (id, ip, useragent, token, callback) {
+  return this.bcrypt.compare(id + ip + useragent, token, callback)
+}
+/** Sync Checks if a Token for a user is valid
+ * @param {string} id - ID of an User
+ * @param {string} ip - ip of the external client
+ * @param {string} useragent - user-agent of the external client
+ * @param {string} token - token of the external client
  * @returns {bool} true or false
  * */
-User.prototype.checkToken = function (id, ip, useragent, token, callback) {}
-
+User.prototype.checkTokenSync = function (id, ip, useragent, token) {
+  return this.bcrypt.compareSync(id + ip + useragent, token)
+}
 module.exports = User

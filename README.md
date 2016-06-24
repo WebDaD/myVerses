@@ -37,9 +37,9 @@ Below this line, stuff will be removed and placed in better places!
 
 ## code
 * libs
-  * user + optional callbacks
-  * bible + optional callbacks
-  * bibles + optional callbacks
+  * user + optional callbacks (split to have Sync functions)
+  * bible + optional callbacks (split to have Sync functions)
+  * bibles + optional callbacks (split to have Sync functions)
 * Routes
   * bible (req.query.version,language)
   * stats
