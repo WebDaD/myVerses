@@ -6,8 +6,10 @@
  * @description	Creates an Object. Has specific methods to show and manipulate data
  * @memberof myVerses
  * @requires module:fs
+ * @requires module:xml2js
  */
 var fs = require('fs')
+var xml2js = require('xml2js')
 /** Creates a instance of class Bibles
  * @class Bibles
  * @param {string} xmlbible - Path to a XML-Bible from Zefania.
@@ -16,6 +18,20 @@ var fs = require('fs')
  * */
 function Bible (xmlbible, callback) {
   this.xmlbible = xmlbible
+  var parser = new xml2js.Parser()
+  fs.readFile(xmlbible, function (err, data) {
+    if (err) {
+      return callback(err)
+    } else {
+      parser.parseString(data, function (err, result) {
+        if (err) {
+          return callback(err)
+        } else {
+          // TODO: result
+        }
+      })
+    }
+  })
 // TODO: read in bible (check if is xml before!)
 /** basic information into this.information
 * struct:

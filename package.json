@@ -73,6 +73,7 @@
     "reload":"*",
     "async":"*",
     "serve-favicon":"*",
-    "uuid":"*"
+    "uuid":"*",
+    "xml2js":"*"
   }
 }
