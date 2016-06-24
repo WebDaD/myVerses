@@ -37,7 +37,7 @@ Below this line, stuff will be removed and placed in better places!
 
 ## code
 * libs
-  * user + optional callbacks (split to have Sync functions)
+  * TEST user
   * bible + optional callbacks (split to have Sync functions)
   * bibles + optional callbacks (split to have Sync functions)
 * Routes

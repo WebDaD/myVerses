@@ -2,14 +2,16 @@
  * @overview 	Controller for User Database
  * @module user
  * @author Dominik Sigmund
- * @version 0.1
+ * @version 0.9
  * @description	Creates an Object. Has specific methods to show and manipulate data
  * @memberof myVerses
  * @requires module:jsonfile
  * @requires module:fs
+ * @requires module:uuid
  */
 var jsonfile = require('jsonfile')
 var fs = require('fs')
+var uuid = require('uuid')
 /** Creates a instance of class User
  * @class User
  * @param {string} path - Path to Folder with user-json-files
@@ -136,25 +138,76 @@ User.prototype.getUserByLoginSync = function (login) {
  * @param {callback} callback - An error-first callback, having the return-data as second parameter
  * */
 User.prototype.updateUser = function (id, user, callback) {
-  // TODO get user
-  // TODO check new login method. if local and password given, calc new password
-  // TODO overwrite user object
-  // TODO writeOut to File
-  // TODO callback  user
-
+  var self = this
+  var updated = false
+  if (user.login.method === 'local' && user.login.password !== null) {
+    user.login.password = this.bcrypt.hash(user.login.password, self.salt, function (err, result) {
+      if (err) {
+        return callback(error)
+      } else {
+        for (var i = 0;i < this.users.length;i++) {
+          if (this.users[i].id === id) {
+            this.users[i] = user
+            updated = true
+          }
+        }
+        if (updated) {
+          jsonfile.writeFile(self.path + id + '.json', user, function (error) {
+            if (error) {
+              return callback(error)
+            } else {
+              return callback(null, user)
+            }
+          })
+        } else {
+          return callback({status: 404, message: 'User with ID ' + id + ' not found'})
+        }
+      }
+    })
+  } else {
+    for (var i = 0;i < this.users.length;i++) {
+      if (this.users[i].id === id) {
+        this.users[i] = user
+        updated = true
+      }
+    }
+    if (updated) {
+      jsonfile.writeFile(self.path + id + '.json', user, function (error) {
+        if (error) {
+          return callback(error)
+        } else {
+          return callback(null, user)
+        }
+      })
+    } else {
+      return callback({status: 404, message: 'User with ID ' + id + ' not found'})
+    }
+  }
 }
 /** Sync Updates an user-object with the given ID using given User-Object
  * @param {string} id - ID of an User
  * @param {object} user - An User-Object
- * @returns {object} An User-Object
+ * @returns {bool|object} An User-Object or an error status
  * */
 User.prototype.updateUserSync = function (id, user) {
-  // TODO get user
-  // TODO check new login method. if local and password given, calc new password
-  // TODO overwrite user object
-  // TODO writeOut to File
-  // TODO return user
-
+  var self = this
+  var updated = false
+  if (user.login.method === 'local' && user.login.password !== null) {
+    user.login.password = this.bcrypt.hashSync(user.login.password, self.salt)
+  }
+  for (var i = 0;i < this.users.length;i++) {
+    if (this.users[i].id === id) {
+      this.users[i] = user
+      jsonfile.writeFileSync(self.path + id + '.json', user)
+      updated = true
+      return user
+    }
+  }
+  if (!updated) {
+    return false
+  } else {
+    return user
+  }
 }
 /** Creates an user-object using given User-Object
  * @param {object} user - An User-Object
@@ -162,22 +215,62 @@ User.prototype.updateUserSync = function (id, user) {
  * @returns {object} An User-Object
  * */
 User.prototype.createUser = function (user, callback) {
-  // TODO if login is local calc password from given
-  // TODO check if email exists, if yes ERROR
-  // TODO writeout to File
-  // TODO callback  user
-
+  var self = this
+  var existing = this.users.filter(function (obj) {
+    return obj.mail.toString() === user.mail.toString()
+  })
+  if (existing.length > 0) {
+    return callback({status: 409, message: 'User with E-Mail ' + user.mail + ' already exists'})
+  } else {
+    user.id = uuid.v4()
+    if (user.login.method === 'local') {
+      user.login.password = this.bcrypt.hash(user.login.password, self.salt, function (error, result) {
+        if (error) {
+          return callback(error)
+        } else {
+          user.login.password = result
+          this.users.push(user)
+          jsonfile.writeFile(self.path + user.id + '.json', user, function (error) {
+            if (error) {
+              return callback(error)
+            } else {
+              return callback(null, user)
+            }
+          })
+        }
+      })
+    } else {
+      this.users.push(user)
+      jsonfile.writeFile(self.path + user.id + '.json', user, function (error) {
+        if (error) {
+          return callback(error)
+        } else {
+          return callback(null, user)
+        }
+      })
+    }
+  }
 }
 /** Sync Creates an user-object using given User-Object
  * @param {object} user - An User-Object
  * @returns {object} An User-Object
  * */
 User.prototype.createUserSync = function (user) {
-  // TODO if login is local calc password from given
-  // TODO check if email exists, if yes ERROR
-  // TODO writeout to File
-  // TODO callback or return user
-
+  var self = this
+  var existing = this.users.filter(function (obj) {
+    return obj.mail.toString() === user.mail.toString()
+  })
+  if (existing.length > 0) {
+    return null
+  } else {
+    if (user.login.method === 'local') {
+      user.login.password = this.bcrypt.hashSync(user.login.password, self.salt)
+    }
+    user.id = uuid.v4()
+    this.users.push(user)
+    jsonfile.writeFileSync(self.path + user.id + '.json', user)
+    return user
+  }
 }
 /** Deletes an user-object for the given ID
  * @param {string} id - ID of an User
