@@ -1,6 +1,24 @@
 # MyVerses
 Simple Service to Read the Bible and have a list of favorite bible verses.
 
+## Start the App
+
+### OneLiner
+1. `wget https://raw.githubusercontent.com/WebDaD/myVerses/master/install.sh | sh`
+
+### Native
+1. `git clone https://github.com/WebDaD/myVerses.git`
+2. `cd myVerses`
+3. `npm run deploy`
+4. `npm start`
+
+### Docker
+1. `git clone https://github.com/WebDaD/myVerses.git`
+2. `cd myVerses`
+3. `mkdir -p /usr/database/myVerses`
+3. `docker build -t myVerses .`
+4. `docker run -v /usr/database/myVerses:/opt/myVerses/database myVerses`
+
 ## Resources
 Many Thanks to the developers of the Following Stuff:
 * [Zefaina](https://sourceforge.net/projects/zefania-sharp/ http://bgfdb.de/zefaniaxml/bml/)
@@ -63,11 +81,6 @@ Below this line, stuff will be removed and placed in better places!
 * apt-get git node npm
 * set link if needed
 * deploy
-
-## Dockerfile
-* base
-* steps
-* persistent database folder
 
 ## docs
 * standard icon in readme, also test coverage, etc
