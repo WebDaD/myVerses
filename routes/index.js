@@ -38,12 +38,14 @@ module.exports = function (app, bibles, users) {
     next()
   })
 
-  // Load Connection Routes
+  // Load Bible Routes
   require('./bible.js')(app, bibles, users)
-  // Load Sources Routes
+  // Load Stats Routes
   require('./stats.js')(app, bibles)
-  // Load Target Routes
+  // Load User Routes
   require('./user.js')(app, users)
+  // Load Export Routes
+  require('./export.js')(app, users)
 
   // Sends status information
   app.get('/status', function (req, res) {
