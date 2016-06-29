@@ -38,7 +38,9 @@ Below this line, stuff will be removed and placed in better places!
 ## code
 * libs
   * TEST user
-  * bible + optional callbacks (split to have Sync functions)
+  * bible
+    * getVerseByCode
+    * search
   * bibles + optional callbacks (split to have Sync functions)
 * Routes
   * bible (req.query.version,language)
@@ -50,6 +52,7 @@ Below this line, stuff will be removed and placed in better places!
   * bible
   * bibles
   * user
+  * app -> https://strongloop.com/strongblog/nodejs-testing-documenting-apis-mocha-acquit/
 * assets / gui
   * global
     * typhography
@@ -87,6 +90,7 @@ Below this line, stuff will be removed and placed in better places!
 
 
 ## Login-Options
+* https://blog.risingstack.com/node-hero-node-js-authentication-passport-js/
 * local (bcrypt, md5)
 * facebook
 * twitter

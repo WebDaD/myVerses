@@ -6,10 +6,12 @@
  * @description	Creates an Object. Has specific methods to show and manipulate data
  * @memberof myVerses
  * @requires module:fs
+ * @requires module:path
  * @requires module:async
  * @requires lib:bible
  */
 var fs = require('fs')
+var path = require('path')
 var async = require('async')
 var BIBLE = require('./bible.js')
 
@@ -20,20 +22,24 @@ var BIBLE = require('./bible.js')
  * @returns {object} The Working User Object
  * */
 function Bibles (biblepath, callback) {
-  this.biblepath = biblepath
-  this.bibles = []
+  var self = this
+  self.biblepath = biblepath
+  self.bibles = []
   fs.readdir(biblepath, function (err, files) {
     if (err) {
       callback(err)
     } else {
+      for (var i = 0; i < files.length; i++) {
+        files[i] = path.join(self.biblepath, files[i])
+      }
       async.map(files, BIBLE, function (err, results) {
         if (err) {
           callback(err)
         } else {
-          this.bibles = results
-          this.structure = createStructure()
-          this.languages = createLanguages()
-          callback(null, this)
+          self.bibles = results
+          self.structure = createStructure()
+          self.languages = createLanguages()
+          callback(null, self)
         }
       })
     }
