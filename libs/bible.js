@@ -375,22 +375,83 @@ function returnVerse (bible, bookid, chapterid, verseid) {
  * @param {string} code - The Code of the Verse BOOK-CHAPTER-VERSE
  * @param {callback} callback - error-first callback, having the return-data as second parameter
  * */
-Bible.prototype.getVerseByCode = function (code, callback) {}
+Bible.prototype.getVerseByCode = function (code, callback) {
+  if (typeof callback !== 'function') {
+    console.error('No Callback given')
+    return null
+  } else {
+    var verse = returnVerseByCode(this.bible, code)
+    if (verse === null) {
+      callback({status: 404, message: 'No Verse with Code ' + code + ' found'})
+    } else {
+      callback(null, verse)
+    }
+  }
+}
 /** Sync Return the Verse Object
  * @param {string} code - The Code of the Verse BOOK-CHAPTER-VERSE
  * @returns {object} - A Verse object
  * */
-Bible.prototype.getVerseByCodeSync = function (code) {}
+Bible.prototype.getVerseByCodeSync = function (code) {
+  return returnVerseByCode(this.bible, code)
+}
+/** Return the Verse Object
+ * @param {object} bible - bible-object
+ * @param {string} code - The Code of the Verse BOOK-CHAPTER-VERSE
+ * @returns {object} - A Verse object
+ * */
+function returnVerseByCode (bible, code) {
+  var tmp = code.split('-')
+  var bookid
+  for (var i = 0; i < bible.books.length; i++) {
+    if (bible.books[i].short === tmp[0]) {
+      bookid = bible.books[i].number
+    }
+  }
+  return returnVerse(bible, bookid, tmp[1], tmp[2])
+}
 // -------------------------------------------------------------------------------------------------------------
 /** Return All Verses in the bible matching the text
  * @param {string} text - The Query to search for
  * @param {callback} callback - error-first callback, having the return-data as second parameter
  * */
-Bible.prototype.search = function (text, callback) {}
+Bible.prototype.search = function (text, callback) {
+  if (typeof callback !== 'function') {
+    console.error('No Callback given')
+    return null
+  } else {
+    var verses = returnSearch(this.bible, text)
+    if (verses.length < 1) {
+      callback({status: 404, message: 'No Verse with Query ' + text + ' found'})
+    } else {
+      callback(null, verses)
+    }
+  }
+}
 /** Sync Return All Verses in the bible matching the text
  * @param {string} text - The Query to search for
  * @returns {array} - An array of verses
  * */
-Bible.prototype.searchSync = function (text) {}
+Bible.prototype.searchSync = function (text) {
+  return returnSearch(this.bible, text)
+}
+/** Return All Verses in the bible matching the text
+ * @param {object} bible - bible-object
+ * @param {string} text - The Query to search for
+ * @returns {array} - An array of verses
+ * */
+function returnSearch (bible, query) {
+  var verses = []
+  for (var i = 0; i < bible.books.length; i++) {
+    for (var j = 0; j < bible.books[i].chapters.length; i++) {
+      for (var k = 0; k < bible.books[i].chapters[j].verses.length; k++) {
+        if (bible.books[i].chapters[j].verses[k].text.includes(query)) {
+          verses.push(bible.books[i].chapters[j].verses[k])
+        }
+      }
+    }
+  }
+  return verses
+}
 // -------------------------------------------------------------------------------------------------------------
 module.exports = Bible

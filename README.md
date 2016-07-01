@@ -38,9 +38,7 @@ Below this line, stuff will be removed and placed in better places!
 ## code
 * libs
   * TEST user
-  * bible
-    * getVerseByCode
-    * search
+  * TEST bible
   * bibles + optional callbacks (split to have Sync functions)
 * Routes
   * bible (req.query.version,language)
