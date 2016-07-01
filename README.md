@@ -39,7 +39,7 @@ Below this line, stuff will be removed and placed in better places!
 * libs
   * TEST user
   * TEST bible
-  * bibles + optional callbacks (split to have Sync functions)
+  * TEST bibles
 * Routes
   * bible (req.query.version,language)
   * stats
