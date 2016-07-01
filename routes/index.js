@@ -19,7 +19,7 @@ module.exports = function (app, bibles, users) {
   * @param {object} next - Express.next Object
   * @returns {undefined}
   */
-  app.use(function (req, res, next) {
+  app.LVC = function (req, res, next) {
     if (typeof req.query.language === 'undefined') {
       if (typeof req.headers.language === 'undefined') {
         res.status(500).end('No Language Selected')
@@ -36,7 +36,7 @@ module.exports = function (app, bibles, users) {
     }
     // console.log(req)
     next()
-  })
+  }
 
   // Load Bible Routes
   require('./bible.js')(app, bibles, users)
