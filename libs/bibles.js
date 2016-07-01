@@ -38,6 +38,7 @@ function Bibles (biblepath, callback) {
         } else {
           self.bibles = results
           self.languages = createLanguages(results)
+          // TODO: create book translation table (code to number, number to code)
           callback(null, self)
         }
       })

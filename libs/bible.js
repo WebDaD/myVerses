@@ -33,9 +33,9 @@ function Bible (xmlbible, callback) {
           self.information = result.XMLBIBLE.INFORMATION
           result.XMLBIBLE.BIBLEBOOK.forEach(function (xbook) {
             var book = {
-              name: xbook['$'].bname,
+              name: (typeof xbook['$'].bname !== 'undefined') ? xbook['$'].bname : '',
               number: xbook['$'].bnumber,
-              short: xbook['$'].bsname,
+              short: (typeof xbook['$'].bsname !== 'undefined') ? xbook['$'].bsname : '',
               chapters: []
             }
             if (xbook.CHAPTER.length > 0) {

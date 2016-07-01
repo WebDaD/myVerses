@@ -39,7 +39,9 @@ Below this line, stuff will be removed and placed in better places!
 * libs
   * TEST user
   * TEST bible
-  * TEST bibles
+  * bibles
+    * books code to number (by language)
+    * books number to code (by language)
 * Routes
   * bible (req.query.version,language)
   * stats
