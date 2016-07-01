@@ -38,7 +38,7 @@ function Bibles (biblepath, callback) {
         } else {
           self.bibles = results
           self.languages = createLanguages(results)
-          // TODO: create book translation table (code to number, number to code)
+          self.books = createBookTranslationTable(results)
           callback(null, self)
         }
       })
@@ -68,6 +68,30 @@ function createLanguages (bibles) {
     }
   }
   return languages
+}
+/** Creates a TranslationTable-Object to find booknumbers by all codes, language is not needed
+ * @param {array} bibles - Array of Objects of class bible
+ * @returns {object} The TranslationTable-Object ( [ {code:number}])
+ * */
+function createBookTranslationTable (bibles) {
+  var codes = []
+  for (var i = 0; i < bibles.length; i++) {
+    var b = bibles[i]
+    for (var j = 0; j < b.length; j++) {
+      var book = b[j]
+      if (typeof book.short === 'undefined') {
+        continue
+      } else {
+        var codeFound = codes.filter(function (obj) {
+          return obj.code.toString() === book.short.toString()
+        })
+        if (codeFound.length < 1) {
+          codes.push({code: book.short, number: book.number})
+        }
+      }
+    }
+  }
+  return codes
 }
 // -------------------------------------------------------------------------------------------------------------
 /** Searches for Text in all Bibles
@@ -175,6 +199,82 @@ Bibles.prototype.getBibleSync = function (lang, version) {
     var info = obj.getInformationSync()
     return info.language.toString() === lang.toString() && info.identifier.toString() === version.toString()
   })
+}
+// -------------------------------------------------------------------------------------------------------------
+/** Get Number of Book by Code. Important if a bible does not have codes
+ * @param {string} code - The ShortName of the Book we Search
+ * @param {callback} callback - error-first callback, having the return-data as second parameter
+ * */
+Bibles.prototype.getBookNumber = function (code, callback) {
+  if (typeof callback !== 'function') {
+    console.error('No Callback given')
+    return null
+  } else {
+    var number = returnBookNumber(this.books, code)
+    if (number === null) {
+      callback({status: 404, message: 'No Book with Code ' + code + ' found'})
+    } else {
+      callback(null, number)
+    }
+  }
+}
+/** Sync Get Number of Book by Code. Important if a bible does not have codes
+ * @param {string} code - The ShortName of the Book we Search
+ * @returns {string} A Book-Number
+ * */
+Bibles.prototype.getBookNumberSync = function (code) {
+  return returnBookNumber(this.books, code)
+}
+/** Return BookCode by Number
+ * @param {array} books - TranslationTable-Object
+ * @param {string} code - The ShortName of the Book we Search
+ * @returns {string} A Book-Number
+ * */
+function returnBookNumber (books, code) {
+  for (var i = 0; i < books.length; i++) {
+    if (books[i].code === code) {
+      return books[i].number
+    }
+  }
+  return null
+}
+// -------------------------------------------------------------------------------------------------------------
+/** Get Code of Book by Number. Important if a bible does not have codes
+ * @param {string} number - The Number of the Book we Search
+ * @param {callback} callback - error-first callback, having the return-data as second parameter
+ * */
+Bibles.prototype.getBookCode = function (number, callback) {
+  if (typeof callback !== 'function') {
+    console.error('No Callback given')
+    return null
+  } else {
+    var code = returnBookCode(this.books, number)
+    if (code === null) {
+      callback({status: 404, message: 'No Book with Number ' + number + ' found'})
+    } else {
+      callback(null, code)
+    }
+  }
+}
+/** Sync Get Code of Book by Number. Important if a bible does not have codes
+ * @param {string} number - The Number of the Book we Search
+ * @returns {string} A Book-Code
+ * */
+Bibles.prototype.getBookCodeSync = function (number) {
+  return returnBookCode(this.books, number)
+}
+/** Return BookNumber by Code
+ * @param {array} books - TranslationTable-Object
+ * @param {string} number - The Number of the Book we Search
+ * @returns {string} A Book-Code
+ * */
+function returnBookCode (books, number) {
+  for (var i = 0; i < books.length; i++) {
+    if (books[i].number === number) {
+      return books[i].code
+    }
+  }
+  return null
 }
 // -------------------------------------------------------------------------------------------------------------
 module.exports = Bibles

@@ -389,7 +389,7 @@ Bible.prototype.getVerseByCode = function (code, callback) {
   }
 }
 /** Sync Return the Verse Object
- * @param {string} code - The Code of the Verse BOOK-CHAPTER-VERSE
+ * @param {string} code - The Code of the Verse BOOKID-CHAPTER-VERSE
  * @returns {object} - A Verse object
  * */
 Bible.prototype.getVerseByCodeSync = function (code) {
@@ -397,18 +397,12 @@ Bible.prototype.getVerseByCodeSync = function (code) {
 }
 /** Return the Verse Object
  * @param {object} bible - bible-object
- * @param {string} code - The Code of the Verse BOOK-CHAPTER-VERSE
+ * @param {string} code - The Code of the Verse BOOKID-CHAPTER-VERSE
  * @returns {object} - A Verse object
  * */
 function returnVerseByCode (bible, code) {
   var tmp = code.split('-')
-  var bookid
-  for (var i = 0; i < bible.books.length; i++) {
-    if (bible.books[i].short === tmp[0]) {
-      bookid = bible.books[i].number
-    }
-  }
-  return returnVerse(bible, bookid, tmp[1], tmp[2])
+  return returnVerse(bible, tmp[0], tmp[1], tmp[2])
 }
 // -------------------------------------------------------------------------------------------------------------
 /** Return All Verses in the bible matching the text
